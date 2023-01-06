@@ -17,10 +17,12 @@ namespace Dmail.Data.Entities.Models
         public ICollection<UserEvent> UserEvents { get; set; } = new List<UserEvent>();
         public ICollection<UserMessage> UserMessages { get; set; } = new List<UserMessage>();
 
-        public User(string firstName, string lastName)
+        public User(string firstName, string lastName, string email, string password)
         {
             FirstName = firstName;
             LastName = lastName;
+            Email = email;
+            Password = password;
         } 
     }
 }

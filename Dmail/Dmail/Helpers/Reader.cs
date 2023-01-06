@@ -17,5 +17,11 @@ namespace Dmail.Presentation.Helpers
 
             return number;
         }
+
+        public static string ReadString(string message)
+        {
+            Console.Write(message + " ");
+            return Console.ReadLine();
+        }
     }
 }

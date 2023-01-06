@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dmail.Presentation.Abstractions
+namespace Dmail.Domain.Repositories
 {
-    public interface IOption
+    public class UserMessageRepository
     {
-        string Name { get; set; }
-        void Open();
     }
 }

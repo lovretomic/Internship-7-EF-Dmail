@@ -15,11 +15,9 @@ namespace Dmail.Data.Seeds
             builder.Entity<User>()
                 .HasData(new List<User>
                 {
-                    new User("Lovre", "Tomić")
+                    new User("Lovre", "Tomić", "tomiclovre05@gmail.com", "pass123")
                     {
                         Id = 1,
-                        Email = "tomiclovre05@gmail.com",
-                        Password = "pass123"
                     }
                 });
         }
