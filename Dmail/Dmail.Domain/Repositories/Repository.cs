@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dmail.Domain.Repositories
 {
-    public class Repository
+    internal class Repository
     {
-        
     }
 }

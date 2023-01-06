@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Dmail.Data.Seeds;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace Dmail.Data.Entities
 {
@@ -24,6 +27,9 @@ namespace Dmail.Data.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserEvent>()
+                .HasKey(ue => new { ue.UserId, ue.EventId });
+
+            modelBuilder.Entity<UserEvent>()
                 .HasOne(g => g.User)
                 .WithMany(u => u.UserEvents)
                 .HasForeignKey(gu => gu.UserId);
@@ -34,6 +40,9 @@ namespace Dmail.Data.Entities
                 .HasForeignKey(gu => gu.EventId);
 
             modelBuilder.Entity<UserMessage>()
+                .HasKey(um => new { um.UserId, um.MessageId });
+
+            modelBuilder.Entity<UserMessage>()
                 .HasOne(g => g.User)
                 .WithMany(u => u.UserMessages)
                 .HasForeignKey(gu => gu.UserId);
@@ -42,6 +51,30 @@ namespace Dmail.Data.Entities
                 .HasOne(g => g.Message)
                 .WithMany(u => u.UserMessages)
                 .HasForeignKey(gu => gu.MessageId);
+
+            InitialSeed.Seed(modelBuilder);
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+
+    public class TodoAppDbContextFactory : IDesignTimeDbContextFactory<DmailDbContext>
+    {
+        public DmailDbContext CreateDbContext(string[] args)
+        {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddXmlFile("App.config")
+                .Build();
+
+            config.Providers
+                .First()
+                .TryGet("connectionStrings:add:DmailDb:connectionString", out var connectionString);
+
+            var options = new DbContextOptionsBuilder<DmailDbContext>()
+                .UseNpgsql(connectionString)
+                .Options;
+
+            return new DmailDbContext(options);
         }
     }
 }
