@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dmail.Domain.Factories;
+using Dmail.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,27 @@ namespace Dmail.Presentation.Helpers
         {
             Console.Write(message + " ");
             return Console.ReadLine();
+        }
+
+        public static List<int> ReadReceivers(string message)
+        {
+            var userRepository = new UserRepository(DbContextFactory.GetDbContext());
+            Console.Write(message + " ");
+            var input = Console.ReadLine();
+
+            var splitted = input.Split(',').ToList();
+            for(int i = 0; i < splitted.Count(); i++)
+            {
+                splitted[i] = splitted[i].Trim();
+            }
+
+            var ids = new List<int>();
+            foreach(var part in splitted)
+            {
+                ids.Add(userRepository.GetByEmail(part).Id);
+            }
+
+            return ids;
         }
     }
 }

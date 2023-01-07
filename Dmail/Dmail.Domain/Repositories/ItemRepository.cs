@@ -109,5 +109,39 @@ namespace Dmail.Domain.Repositories
                     break;
             }
         }
+
+        public int GetLastItemId()
+        {
+            return DbContext.Items.Count();
+        }
+
+        public ActionStatus NewMessage(User user)
+        {
+            Writer.PrintHeader();
+            var receiversInput = Reader.ReadReceivers("Emailovi primatelja (odvoji zarezom):");
+            var titleInput = Reader.ReadString("Naslov:");
+            var contentInput = Reader.ReadString("Sadržaj:\n");
+            var newId = GetLastItemId() + 1;
+
+            DateTime now = DateTime.UtcNow.Date;
+            DbContext.Items.Add(new Item(titleInput, now.ToString("yyyy-MM-dd"), user.Id, ItemType.Message)
+            {
+                Id = newId,
+                Content = contentInput,
+                StartDate = ""
+            });
+
+            foreach (var receiverId in receiversInput)
+            {
+                DbContext.UserItems.Add(new UserItem(receiverId, newId)
+                {
+                    Attendance = EventStatus.Unknown,
+                    Status = MessageStatus.Sent,
+                    IsSpam = false
+                });;
+            }
+
+            return SaveChanges();
+        }
     }
 }

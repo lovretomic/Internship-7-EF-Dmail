@@ -28,6 +28,16 @@ namespace Dmail.Domain.Repositories
             else { return null; }
         }
 
+        public User? GetByEmail(string email)
+        {
+            var users = DbContext.Users
+                .Where(u => u.Email == email)
+                .ToList();
+
+            if (users.Any()) { return users[0]; }
+            else { return null; }
+        }
+
         public ActionStatus Add(User user)
         {
             DbContext.Users.Add(user);

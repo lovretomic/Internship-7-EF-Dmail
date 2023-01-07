@@ -36,6 +36,10 @@ namespace Dmail.Presentation.Menus
                     var spamInboxMenu = new SpamInboxMenu();
                     spamInboxMenu.Open(connectedUser);
                     break;
+                case 4:
+                    var newMessageMenu = new NewMessageMenu();
+                    newMessageMenu.Open(connectedUser);
+                    break;
             }
         }
     }
