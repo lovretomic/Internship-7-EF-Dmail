@@ -33,7 +33,7 @@ namespace Dmail.Domain.Repositories
                 Console.WriteLine(item.SentOn);
                 Console.WriteLine(sender.FirstName + " " + sender.LastName + " (" + sender.Email + ")");
                 Console.WriteLine("----------");
-                Console.WriteLine(item.Content);
+                Console.WriteLine(item.Content + "\n");
             }
             else
             {
@@ -100,8 +100,8 @@ namespace Dmail.Domain.Repositories
             Console.WriteLine("1 - Oznaci kao neprocitano");
             Console.WriteLine("2 - Oznaci kao spam");
             Console.WriteLine("3 - Izbrisi mail");
-            Console.WriteLine("4 - Odgovori na mail"); // Not implemented
-            Console.WriteLine("0 - Povratak na ulaznu postu"); // Not implemented
+            Console.WriteLine("4 - Odgovori na mail");
+            Console.WriteLine("0 - Povratak na ulaznu postu");
             switch (Reader.ReadNumber())
             {
                 case 1:
@@ -125,12 +125,13 @@ namespace Dmail.Domain.Repositories
         {
             var userItemRepository = new UserItemRepository(DbContext);
             Console.WriteLine("1 - Izbrisi mail");
-            Console.WriteLine("0 - Povratak na ulaznu postu"); // Not implemented
+            Console.WriteLine("0 - Povratak na ulaznu postu");
             switch (Reader.ReadNumber())
             {
                 case 1:
                     userItemRepository.Delete(item, user);
                     break;
+                default: break;
             }
         }
 

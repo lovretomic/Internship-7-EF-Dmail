@@ -41,7 +41,7 @@ namespace Dmail.Presentation.Menus.MainMenuOption
                     }
                     do
                     {
-                        Console.Write("Unesi broj poruke kojoj zeli pristupiti ili 0 za povratak na glavni izbornik: ");
+                        Console.Write("Unesi broj poruke kojoj zelis pristupiti ili 0 za povratak na glavni izbornik: ");
                         input = Reader.ReadNumber();
                         if (input > 0 && input <= i)
                         {
@@ -75,7 +75,7 @@ namespace Dmail.Presentation.Menus.MainMenuOption
                     }
                     do
                     {
-                        Console.Write("Unesi broj poruke kojoj zeli pristupiti ili 0 za povratak na glavni izbornik: ");
+                        Console.Write("Unesi broj poruke kojoj zelis pristupiti ili 0 za povratak na glavni izbornik: ");
                         input = Reader.ReadNumber();
                         if (input > 0 && input <= i)
                         {
@@ -111,7 +111,7 @@ namespace Dmail.Presentation.Menus.MainMenuOption
                     }
                     do
                     {
-                        Console.Write("Unesi broj poruke kojoj zeli pristupiti ili 0 za povratak na glavni izbornik: ");
+                        Console.Write("Unesi broj poruke kojoj zelis pristupiti ili 0 za povratak na glavni izbornik: ");
                         input = Reader.ReadNumber();
                         if (input > 0 && input <= i)
                         {
