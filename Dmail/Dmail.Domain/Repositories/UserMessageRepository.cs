@@ -58,5 +58,27 @@ namespace Dmail.Domain.Repositories
             }
             return result;
         }
+
+        public List<Message> GetInbox(User user)
+        {
+            var userMessages = DbContext.UserMessages
+                .Where(u => u.UserId == user.Id)
+                .ToList();
+            var messages = DbContext.Messages.ToList();
+
+            var result = new List<Message>();
+
+            foreach (var userMessage in userMessages)
+            {
+                foreach (var message in messages)
+                {
+                    if (userMessage.MessageId == message.Id)
+                    {
+                        result.Add(message);
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Dmail.Domain.Factories;
 using Dmail.Domain.Repositories;
 using Dmail.Presentation.Helpers;
+using Dmail.Presentation.Menus.MainMenuOption;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,17 +28,8 @@ namespace Dmail.Presentation.Menus
             switch(Reader.ReadNumber())
             {
                 case 1:
-                    Writer.PrintHeader();
-                    Console.WriteLine("ULAZNA POSTA");
-                    var userMessageRepository = new UserMessageRepository(DbContextFactory.GetDbContext());
-                    var messages = userMessageRepository.GetInbox(connectedUser);
-                    foreach(var message in messages)
-                    {
-                        Console.WriteLine(message.Title);
-                        Console.WriteLine(message.Id);
-                        Console.WriteLine(message.SentOn);
-                        Console.WriteLine(message.Content);
-                    }
+                    var inboxMenu = new InboxMenu();
+                    inboxMenu.Open(connectedUser);
                     break;
             }
         }
