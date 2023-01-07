@@ -18,14 +18,17 @@ namespace Dmail.Data.Entities
         {
         }
 
-        public DbSet<Event> Events => Set<Event>();
-        public DbSet<Message> Messages => Set<Message>();
+        //public DbSet<Event> Events => Set<Event>();
+        //public DbSet<Message> Messages => Set<Message>();
         public DbSet<User> Users => Set<User>();
-        public DbSet<UserEvent> UserEvents => Set<UserEvent>();
-        public DbSet<UserMessage> UserMessages => Set<UserMessage>();
+        //public DbSet<UserEvent> UserEvents => Set<UserEvent>();
+        //public DbSet<UserMessage> UserMessages => Set<UserMessage>();
+        public DbSet<Item> Items => Set<Item>();
+        public DbSet<UserItem> UserItems => Set<UserItem>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*
             modelBuilder.Entity<UserEvent>()
                 .HasKey(ue => new { ue.UserId, ue.EventId });
 
@@ -51,6 +54,20 @@ namespace Dmail.Data.Entities
                 .HasOne(g => g.Message)
                 .WithMany(u => u.UserMessages)
                 .HasForeignKey(gu => gu.MessageId);
+            */
+
+            modelBuilder.Entity<UserItem>()
+                .HasKey(ue => new { ue.UserId, ue.ItemId });
+
+            modelBuilder.Entity<UserItem>()
+                .HasOne(g => g.User)
+                .WithMany(u => u.UserItems)
+                .HasForeignKey(gu => gu.UserId);
+
+            modelBuilder.Entity<UserItem>()
+                .HasOne(g => g.Item)
+                .WithMany(u => u.UserItems)
+                .HasForeignKey(gu => gu.ItemId);
 
             InitialSeed.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);

@@ -15,6 +15,7 @@ namespace Dmail.Domain.Repositories
         {
         }
 
+        /*
         public List<Message> GetReadInbox(User user)
         {
             var userMessages = DbContext.UserMessages
@@ -80,5 +81,6 @@ namespace Dmail.Domain.Repositories
             }
             return result;
         }
+        */
     }
 }

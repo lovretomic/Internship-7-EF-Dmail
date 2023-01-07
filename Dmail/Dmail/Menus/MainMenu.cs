@@ -3,6 +3,7 @@ using Dmail.Domain.Factories;
 using Dmail.Domain.Repositories;
 using Dmail.Presentation.Helpers;
 using Dmail.Presentation.Menus.MainMenuOption;
+using Dmail.Presentation.Menus.MainMenuOptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,10 @@ namespace Dmail.Presentation.Menus
                 case 1:
                     var inboxMenu = new InboxMenu();
                     inboxMenu.Open(connectedUser);
+                    break;
+                case 3:
+                    var spamInboxMenu = new SpamInboxMenu();
+                    spamInboxMenu.Open(connectedUser);
                     break;
             }
         }

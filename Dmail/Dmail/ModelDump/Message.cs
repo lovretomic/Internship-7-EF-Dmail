@@ -18,7 +18,6 @@ namespace Dmail.Data.Entities.Models
 
         public Message(string title, string sentOn, int senderId, string content)
         {
-            Id = IdGenerator.NewMessageEventId();
             Title = title;
             SentOn = sentOn;
             SenderId = senderId;

@@ -2,6 +2,7 @@
 using Dmail.Domain.Factories;
 using Dmail.Domain.Repositories;
 using Dmail.Presentation.Helpers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,40 +20,60 @@ namespace Dmail.Presentation.Menus.MainMenuOption
             Console.WriteLine("2 - Neprocitana posta");
             Console.WriteLine("3 - Posta od odredenog positaljelja");
             Console.WriteLine("0 - Povratak na glavni izbornik");
-            var userMessageRepository = new UserMessageRepository(DbContextFactory.GetDbContext());
+            var userItemRepository = new UserItemRepository(DbContextFactory.GetDbContext());
             var userRepository = new UserRepository(DbContextFactory.GetDbContext());
+            var itemRepository = new ItemRepository(DbContextFactory.GetDbContext());
+            int input;
             int i;
             switch (Reader.ReadNumber())
             {
                 case 1:
                     Writer.PrintHeader();
-                    var readInbox = userMessageRepository.GetReadInbox(connectedUser);
+                    var readInbox = userItemRepository.GetReadInbox(connectedUser);
                     i = 0;
-                    foreach(var message in readInbox)
+                    foreach(var item in readInbox)
                     {
-                        Console.WriteLine($"{++i} - {message.Title} - {userRepository.GetById(message.SenderId).Email}");
+                        Console.WriteLine($"{++i} - {item.Title} - {userRepository.GetById(item.SenderId).Email}");
+                    }
+                    input = Reader.ReadNumber();
+                    if (input - 1 < readInbox.Count())
+                    {
+                        Writer.PrintHeader();
+                        itemRepository.Print(readInbox[input - 1], connectedUser);
                     }
                     break;
                 case 2:
                     Writer.PrintHeader();
-                    var unreadInbox = userMessageRepository.GetUnreadInbox(connectedUser);
+                    var unreadInbox = userItemRepository.GetUnreadInbox(connectedUser);
                     i = 0;
-                    foreach (var message in unreadInbox)
+                    foreach (var item in unreadInbox)
                     {
-                        Console.WriteLine($"{++i} - {message.Title} - {userRepository.GetById(message.SenderId).Email}");
+                        Console.WriteLine($"{++i} - {item.Title} - {userRepository.GetById(item.SenderId).Email}");
+                    }
+                    input = Reader.ReadNumber();
+                    if (input - 1 < unreadInbox.Count())
+                    {
+                        Writer.PrintHeader();
+                        itemRepository.Print(unreadInbox[input - 1], connectedUser);
                     }
                     break;
                 case 3:
                     Writer.PrintHeader();
                     var query = Reader.ReadString("Unesi trazeni pojam:");
-                    var inbox = userMessageRepository.GetInbox(connectedUser);
+                    var inbox = userItemRepository.GetInbox(connectedUser);
                     i = 0;
-                    foreach(var message in inbox)
+                    foreach(var item in inbox)
                     {
-                        if(userRepository.GetById(message.SenderId).Email.Contains(query))
+                        if(userRepository.GetById(item.SenderId).Email.Contains(query))
                         {
-                            Console.WriteLine($"{++i} - {message.Title} - {userRepository.GetById(message.SenderId).Email}");
+                            Console.WriteLine($"{++i} - {item.Title} - {userRepository.GetById(item.SenderId).Email}");
                         }
+                    }
+                    input = Reader.ReadNumber();
+                    if (input - 1 < inbox.Count())
+                    {
+                        Writer.PrintHeader();
+                        itemRepository.Print(inbox[input - 1], connectedUser);
                     }
                     break;
                 case 0:
