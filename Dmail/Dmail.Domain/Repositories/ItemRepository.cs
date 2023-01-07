@@ -17,7 +17,7 @@ namespace Dmail.Domain.Repositories
         public ItemRepository(DmailDbContext dbContext) : base(dbContext)
         {
         }
-        public void Print(Item item, User user)
+        public void Print(Item item, User user, bool outbox = false)
         {
             SetToRead(item);
             var userRepository = new UserRepository(DbContext);
@@ -47,7 +47,8 @@ namespace Dmail.Domain.Repositories
 
                 Console.WriteLine(userItemRepository.GetEventStatus(item, user));
             }
-            PrintOptions(item, user);
+            if(!outbox) PrintOptions(item, user);
+            else PrintOutboxOption(item, user);
         }
 
         private ActionStatus SetToRead(Item item)
@@ -110,6 +111,19 @@ namespace Dmail.Domain.Repositories
             }
         }
 
+        public void PrintOutboxOption(Item item, User user)
+        {
+            var userItemRepository = new UserItemRepository(DbContext);
+            Console.WriteLine("1 - Izbrisi mail");
+            Console.WriteLine("0 - Povratak na ulaznu postu"); // Not implemented
+            switch (Reader.ReadNumber())
+            {
+                case 1:
+                    userItemRepository.Delete(item, user);
+                    break;
+            }
+        }
+
         public int GetLastItemId()
         {
             return DbContext.Items.Count();
@@ -142,6 +156,68 @@ namespace Dmail.Domain.Repositories
             }
 
             return SaveChanges();
+        }
+
+        public ActionStatus NewEvent(User user)
+        {
+            Writer.PrintHeader();
+            var receiversInput = Reader.ReadReceivers("Emailovi primatelja (odvoji zarezom):");
+            var titleInput = Reader.ReadString("Naslov:");
+            var dateInput = Reader.ReadString("Datum i vrijeme (gggg-mm-dd hh:mm:ss):");
+            var newId = GetLastItemId() + 1;
+
+            DateTime now = DateTime.UtcNow.Date;
+            DbContext.Items.Add(new Item(titleInput, now.ToString("yyyy-MM-dd"), user.Id, ItemType.Event)
+            {
+                Id = newId,
+                Content = "",
+                StartDate = dateInput
+            });
+
+            foreach (var receiverId in receiversInput)
+            {
+                DbContext.UserItems.Add(new UserItem(receiverId, newId)
+                {
+                    Attendance = EventStatus.Unknown,
+                    Status = MessageStatus.Sent,
+                    IsSpam = false
+                }); ;
+            }
+
+            return SaveChanges();
+        }
+
+        public Item? GetById(int id) => DbContext.Items.FirstOrDefault(u => u.Id == id);
+        public List<Item> GetOutbox(User user)
+        {
+            var items = DbContext.Items
+                .Where(u => u.SenderId == user.Id)
+                .ToList();
+            return items;
+        }
+
+        public List<string> GetSentAdresses(User user)
+        {
+            var userItemRepository = new UserItemRepository(DbContext);
+            var userRepository = new UserRepository(DbContext);
+            var items = DbContext.Items
+                .Where(u => u.SenderId == user.Id)
+                .ToList();
+
+            var userItems = DbContext.UserItems.ToList();
+            var adresses = new List<string>();
+            foreach (var item in items)
+            {
+                foreach(var userItem in userItems)
+                {
+                    if (item.Id == userItem.ItemId)
+                    {
+                        adresses.Add(userRepository.GetById(userItem.UserId).Email);
+                    }
+                }
+            }
+
+            return adresses;
         }
     }
 }

@@ -2,6 +2,7 @@
 using Dmail.Data.Entities.Models;
 using Dmail.Data.Enums;
 using Dmail.Domain.Enums;
+using Dmail.Domain.Factories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,32 @@ namespace Dmail.Domain.Repositories
             }
 
             return receivers;
+        }
+
+        public string GetReceiversEmails(Item item)
+        {
+            var users = DbContext.UserItems
+                .Where(u => u.ItemId == item.Id)
+                .ToList();
+
+            List<User> receivers = new List<User>();
+            var userRepository = new UserRepository(DbContext);
+
+            foreach (var user in users)
+            {
+                receivers.Add(userRepository.GetById(user.UserId));
+            }
+
+            var output = "";
+            int i = 0;
+            foreach(var receiver in receivers)
+            {
+                if(i != 0) output += ",";
+                output += receiver.Email;
+                i++;
+            }
+
+            return output;
         }
 
         public List<Item> GetReadInbox(User user)
@@ -143,6 +170,23 @@ namespace Dmail.Domain.Repositories
 
             DbContext.UserItems.Remove(userItem[0]);
             return SaveChanges();
+        }
+
+        public List<User> GetReceivedSenders(User user)
+        {
+            var itemRepository = new ItemRepository(DbContextFactory.GetDbContext());
+            var userRepository = new UserRepository(DbContextFactory.GetDbContext());
+            var receivedItems = DbContext.UserItems
+                .Where(u => u.UserId == user.Id)
+                .ToList();
+
+            var users = new List<User>();
+            foreach (var item in receivedItems)
+            {
+                users.Add(userRepository.GetById(itemRepository.GetById(item.ItemId).SenderId));
+            }
+
+            return users;
         }
     }
 }

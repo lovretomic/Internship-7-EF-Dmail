@@ -32,6 +32,10 @@ namespace Dmail.Presentation.Menus
                     var inboxMenu = new InboxMenu();
                     inboxMenu.Open(connectedUser);
                     break;
+                case 2:
+                    var outboxMenu = new OutboxMenu();
+                    outboxMenu.Open(connectedUser);
+                    break;
                 case 3:
                     var spamInboxMenu = new SpamInboxMenu();
                     spamInboxMenu.Open(connectedUser);
@@ -39,6 +43,14 @@ namespace Dmail.Presentation.Menus
                 case 4:
                     var newMessageMenu = new NewMessageMenu();
                     newMessageMenu.Open(connectedUser);
+                    break;
+                case 5:
+                    var newEventMenu = new NewEventMenu();
+                    newEventMenu.Open(connectedUser);
+                    break;
+                case 6:
+                    var settingsMenu = new SettingsMenu();
+                    settingsMenu.Open(connectedUser);
                     break;
             }
         }
