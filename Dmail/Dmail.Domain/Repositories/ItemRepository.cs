@@ -72,9 +72,13 @@ namespace Dmail.Domain.Repositories
             itemToUpdate.Status = MessageStatus.Sent;
             return SaveChanges();
         }
-        private ActionStatus SetToSpam(Item item)
+        private ActionStatus SetToSpam(Item item, User user)
         {
-            var itemToUpdate = DbContext.UserItems.FirstOrDefault(m => m.ItemId == item.Id);
+            var itemToUpdate = DbContext.UserItems
+                .Where(ui => ui.ItemId == item.Id)
+                .Where(ui => ui.UserId == user.Id)
+                .ToList()[0];
+
             if (itemToUpdate is null)
             {
                 return ActionStatus.NoChanges;
@@ -98,7 +102,7 @@ namespace Dmail.Domain.Repositories
                     SetToUnread(item);
                     break;
                 case 2:
-                    SetToSpam(item);
+                    SetToSpam(item, user);
                     break;
                 case 3:
                     userItemRepository.Delete(item, user);
