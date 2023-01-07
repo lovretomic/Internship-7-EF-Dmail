@@ -9,7 +9,6 @@ namespace Dmail.Data.Enums
     public enum MessageStatus
     {
         Sent,
-        Received,
         Read
     }
 }

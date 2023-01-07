@@ -14,5 +14,12 @@ namespace Dmail.Data.Entities.Models
         public int MessageId { get; set; }
         public Message Message { get; set; }
         public MessageStatus Status { get; set; }
+
+        public UserMessage(int userId, int messageId)
+        {
+            UserId = userId;
+            MessageId = messageId;
+            Status = MessageStatus.Sent;
+        }
     }
 }

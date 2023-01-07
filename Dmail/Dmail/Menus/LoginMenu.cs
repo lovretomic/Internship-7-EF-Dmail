@@ -1,6 +1,7 @@
 ﻿using Dmail.Domain.Enums;
 using Dmail.Domain.Factories;
 using Dmail.Domain.Repositories;
+using Dmail.Domain.UserData;
 using Dmail.Presentation.Helpers;
 using System;
 using System.Collections.Generic;
@@ -25,14 +26,17 @@ namespace Dmail.Presentation.Menus
                     email = Reader.ReadString("Email:");
                     password = Reader.ReadString("Lozinka:");
 
-                    if (!userRepository.Contains(email, password))
+                    var user = userRepository.GetByLoginData(email, password);
+
+                    if (user is null)
                     {
                         Writer.PrintError("Ne postoji korisnik s navedenim podacima.");
                         Open();
                     }
                     else
                     {
-
+                        var mainMenu = new MainMenu();
+                        mainMenu.Open(user);
                     }
                     break;
                 case 2:

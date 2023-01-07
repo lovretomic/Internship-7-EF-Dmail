@@ -17,15 +17,15 @@ namespace Dmail.Domain.Repositories
         {
         }
 
-        public bool Contains(string email, string password)
+        public User? GetByLoginData(string email, string password)
         {
-            var user = DbContext.Users
+            var users = DbContext.Users
                 .Where(u => u.Email == email)
                 .Where(u => u.Password == password)
                 .ToList();
 
-            if (user.Any()) { return true; }
-            else { return false; }
+            if (users.Any()) { return users[0]; }
+            else { return null; }
         }
 
         public ActionStatus Add(User user)
@@ -33,5 +33,6 @@ namespace Dmail.Domain.Repositories
             DbContext.Users.Add(user);
             return SaveChanges();
         }
+        public User? GetById(int id) => DbContext.Users.FirstOrDefault(u => u.Id == id);
     }
 }
