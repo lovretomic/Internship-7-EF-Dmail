@@ -19,6 +19,8 @@ namespace Dmail.Presentation.Menus
             Writer.PrintHeader();
             Console.WriteLine("1 - Prijava (postojeci korisnici)");
             Console.WriteLine("2 - Registracija (novi korisnik)");
+            Console.WriteLine("0 - Napusti aplikaciju");
+
             string email, password, repeatedPassword, captcha, repeatedCaptcha, firstName, lastName;
             switch(Reader.ReadNumber())
             {
@@ -30,11 +32,16 @@ namespace Dmail.Presentation.Menus
 
                     if (user is null)
                     {
-                        Writer.PrintError("Ne postoji korisnik s navedenim podacima.");
+                        Writer.PrintError("Ne postoji korisnik s navedenim podacima. Pripremam novi unos...");
+                        System.Threading.Thread.Sleep(3000);
+
                         Open();
                     }
                     else
                     {
+                        Console.WriteLine("Prijava uspjesna! Otvaram glavni izbornik...");
+                        System.Threading.Thread.Sleep(2000);
+
                         var mainMenu = new MainMenu();
                         mainMenu.Open(user);
                     }
@@ -49,15 +56,28 @@ namespace Dmail.Presentation.Menus
                     Console.WriteLine($"Ponovite sljedeci izraz: {captcha}");
                     repeatedCaptcha = Reader.ReadString("Ponovljeni izraz:");
 
+                    if(!userRepository.EmailIsUnique(email))
+                    {
+                        Writer.PrintError("Vec postoji korisnik s tom email adresom! Pripremam novi unos...");
+                        System.Threading.Thread.Sleep(3000);
+                        Open();
+                    }
+
                     if(password == repeatedPassword && captcha == repeatedCaptcha)
                     {
                         var newUser = new Data.Entities.Models.User(firstName, lastName, email, password);
                         var result = userRepository.Add(newUser);
 
                         if (result is ActionStatus.Success) Console.WriteLine("Korisnik uspjesno dodan!");
-                        else Console.WriteLine("Doslo je do problema prilikom dodavanja korisnika. Korisnik nije dodan.");
+                        else Writer.PrintError("Doslo je do problema prilikom dodavanja korisnika. Korisnik nije dodan.");
+                        System.Threading.Thread.Sleep(3000);
                         Open();
                     }
+                    break;
+                default:
+                    Console.WriteLine("Dovidenja! Zatvaram aplikaciju...");
+                    System.Threading.Thread.Sleep(2000);
+                    return;
                     break;
             }
         }

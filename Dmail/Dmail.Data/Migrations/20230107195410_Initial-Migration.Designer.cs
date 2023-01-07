@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dmail.Data.Migrations
 {
     [DbContext(typeof(DmailDbContext))]
-    [Migration("20230107141755_Initial-Migration")]
+    [Migration("20230107195410_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,6 +128,21 @@ namespace Dmail.Data.Migrations
                             Title = "Event4",
                             Type = 1
                         });
+                });
+
+            modelBuilder.Entity("Dmail.Data.Entities.Models.SpamAdress", b =>
+                {
+                    b.Property<int>("User1Id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("User2Id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("User1Id", "User2Id");
+
+                    b.HasIndex("User2Id");
+
+                    b.ToTable("SpamAdresses");
                 });
 
             modelBuilder.Entity("Dmail.Data.Entities.Models.User", b =>
@@ -395,6 +410,25 @@ namespace Dmail.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Dmail.Data.Entities.Models.SpamAdress", b =>
+                {
+                    b.HasOne("Dmail.Data.Entities.Models.User", "User1")
+                        .WithMany("SpamAdresses1")
+                        .HasForeignKey("User1Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dmail.Data.Entities.Models.User", "User2")
+                        .WithMany("SpamAdresses2")
+                        .HasForeignKey("User2Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User1");
+
+                    b.Navigation("User2");
+                });
+
             modelBuilder.Entity("Dmail.Data.Entities.Models.UserItem", b =>
                 {
                     b.HasOne("Dmail.Data.Entities.Models.Item", "Item")
@@ -421,6 +455,10 @@ namespace Dmail.Data.Migrations
 
             modelBuilder.Entity("Dmail.Data.Entities.Models.User", b =>
                 {
+                    b.Navigation("SpamAdresses1");
+
+                    b.Navigation("SpamAdresses2");
+
                     b.Navigation("UserItems");
                 });
 #pragma warning restore 612, 618

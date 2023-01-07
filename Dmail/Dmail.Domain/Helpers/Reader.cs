@@ -41,7 +41,8 @@ namespace Dmail.Presentation.Helpers
             var ids = new List<int>();
             foreach(var part in splitted)
             {
-                ids.Add(userRepository.GetByEmail(part).Id);
+                if(!userRepository.EmailIsUnique(part))
+                    ids.Add(userRepository.GetByEmail(part).Id);
             }
 
             return ids;

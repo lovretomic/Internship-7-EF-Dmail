@@ -52,6 +52,17 @@ namespace Dmail.Presentation.Menus
                     var settingsMenu = new SettingsMenu();
                     settingsMenu.Open(connectedUser);
                     break;
+                case 7:
+                    Console.WriteLine("Odjavljujem...");
+                    System.Threading.Thread.Sleep(2000);
+                    var loginMenu = new LoginMenu();
+                    loginMenu.Open();
+                    break;
+                default:
+                    Console.WriteLine("Dovidenja! Odjavljujem i zatvaram aplikaciju...");
+                    System.Threading.Thread.Sleep(2000);
+                    return;
+                    break;
             }
         }
     }

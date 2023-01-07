@@ -149,15 +149,14 @@ namespace Dmail.Domain.Repositories
             return result;
         }
 
-        public EventStatus GetEventStatus(Item item, User user)
+        public EventStatus GetEventStatus(Item item)
         {
             if (item.Type != ItemType.Event) return EventStatus.Unknown;
 
             var data = DbContext.UserItems
-                .Where(u => u.UserId == user.Id)
                 .Where(u => u.ItemId == item.Id)
                 .ToList();
-
+            if(!data.Any()) return EventStatus.Unknown;
             return data[0].Attendance;
         }
 

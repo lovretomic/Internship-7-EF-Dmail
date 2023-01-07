@@ -2,6 +2,8 @@
 using Dmail.Data.Entities.Models;
 using Dmail.Data.Enums;
 using Dmail.Domain.Enums;
+using Dmail.Domain.Factories;
+using Dmail.Domain.UserData;
 using Dmail.Presentation.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -45,9 +47,12 @@ namespace Dmail.Domain.Repositories
                     Console.WriteLine(receiver.FirstName + " " + receiver.LastName + " (" + receiver.Email + ")");
                 }
 
-                Console.WriteLine(userItemRepository.GetEventStatus(item, user));
+                Console.WriteLine(userItemRepository.GetEventStatus(item));
             }
-            if(!outbox) PrintOptions(item, user);
+            if (!outbox)
+            {
+                PrintOptions(item, user);
+            }
             else PrintOutboxOption(item, user);
         }
 
@@ -108,6 +113,11 @@ namespace Dmail.Domain.Repositories
                 case 3:
                     userItemRepository.Delete(item, user);
                     break;
+                case 4:
+                    var itemRepository = new ItemRepository(DbContextFactory.GetDbContext());
+                    itemRepository.NewMessage(user);
+                    break;
+                default: break;
             }
         }
 
@@ -145,15 +155,20 @@ namespace Dmail.Domain.Repositories
                 StartDate = ""
             });
 
-            foreach (var receiverId in receiversInput)
-            {
-                DbContext.UserItems.Add(new UserItem(receiverId, newId)
+            int input;
+            Console.Write("Unesi 1 za potvrdu slanja poruke: ");
+            input = Reader.ReadNumber();
+
+            if(input == 1)
+                foreach (var receiverId in receiversInput)
                 {
-                    Attendance = EventStatus.Unknown,
-                    Status = MessageStatus.Sent,
-                    IsSpam = false
-                });;
-            }
+                    DbContext.UserItems.Add(new UserItem(receiverId, newId)
+                    {
+                        Attendance = EventStatus.Unknown,
+                        Status = MessageStatus.Sent,
+                        IsSpam = false
+                    });;
+                }
 
             return SaveChanges();
         }
@@ -166,23 +181,31 @@ namespace Dmail.Domain.Repositories
             var dateInput = Reader.ReadString("Datum i vrijeme (gggg-mm-dd hh:mm:ss):");
             var newId = GetLastItemId() + 1;
 
-            DateTime now = DateTime.UtcNow.Date;
-            DbContext.Items.Add(new Item(titleInput, now.ToString("yyyy-MM-dd"), user.Id, ItemType.Event)
-            {
-                Id = newId,
-                Content = "",
-                StartDate = dateInput
-            });
+            int input;
+            Console.Write("Unesi 1 za potvrdu slanja dogadaja: ");
+            input = Reader.ReadNumber();
 
-            foreach (var receiverId in receiversInput)
+            if (input == 1)
             {
-                DbContext.UserItems.Add(new UserItem(receiverId, newId)
+                DateTime now = DateTime.UtcNow.Date;
+                DbContext.Items.Add(new Item(titleInput, now.ToString("yyyy-MM-dd"), user.Id, ItemType.Event)
                 {
-                    Attendance = EventStatus.Unknown,
-                    Status = MessageStatus.Sent,
-                    IsSpam = false
-                }); ;
+                    Id = newId,
+                    Content = "",
+                    StartDate = dateInput
+                });
+
+                foreach (var receiverId in receiversInput)
+                {
+                    DbContext.UserItems.Add(new UserItem(receiverId, newId)
+                    {
+                        Attendance = EventStatus.Unknown,
+                        Status = MessageStatus.Sent,
+                        IsSpam = false
+                    }); ;
+                }
             }
+            
 
             return SaveChanges();
         }

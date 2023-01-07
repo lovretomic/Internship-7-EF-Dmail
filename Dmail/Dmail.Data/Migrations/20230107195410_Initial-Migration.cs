@@ -44,6 +44,30 @@ namespace Dmail.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SpamAdresses",
+                columns: table => new
+                {
+                    User1Id = table.Column<int>(type: "integer", nullable: false),
+                    User2Id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpamAdresses", x => new { x.User1Id, x.User2Id });
+                    table.ForeignKey(
+                        name: "FK_SpamAdresses_Users_User1Id",
+                        column: x => x.User1Id,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SpamAdresses_Users_User2Id",
+                        column: x => x.User2Id,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserItems",
                 columns: table => new
                 {
@@ -125,6 +149,11 @@ namespace Dmail.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_SpamAdresses_User2Id",
+                table: "SpamAdresses",
+                column: "User2Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserItems_ItemId",
                 table: "UserItems",
                 column: "ItemId");
@@ -132,6 +161,9 @@ namespace Dmail.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "SpamAdresses");
+
             migrationBuilder.DropTable(
                 name: "UserItems");
 

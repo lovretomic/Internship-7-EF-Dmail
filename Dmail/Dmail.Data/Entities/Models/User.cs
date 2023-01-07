@@ -17,6 +17,8 @@ namespace Dmail.Data.Entities.Models
         //public ICollection<UserEvent> UserEvents { get; set; } = new List<UserEvent>();
         //public ICollection<UserMessage> UserMessages { get; set; } = new List<UserMessage>();
         public ICollection<UserItem> UserItems { get; set; } = new List<UserItem>();
+        public ICollection<SpamAdress> SpamAdresses1 { get; set; } = new List<SpamAdress>();
+        public ICollection<SpamAdress> SpamAdresses2 { get; set; } = new List<SpamAdress>();
 
         public User(string firstName, string lastName, string email, string password)
         {

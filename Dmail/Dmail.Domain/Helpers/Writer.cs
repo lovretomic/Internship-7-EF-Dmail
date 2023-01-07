@@ -23,5 +23,10 @@ namespace Dmail.Presentation.Helpers
         {
             Console.WriteLine("## " + message);
         }
+
+        public static void NoResults()
+        {
+            Console.WriteLine("Nema rezultata.");
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace Dmail.Data.Entities
         //public DbSet<UserMessage> UserMessages => Set<UserMessage>();
         public DbSet<Item> Items => Set<Item>();
         public DbSet<UserItem> UserItems => Set<UserItem>();
+        public DbSet<SpamAdress> SpamAdresses => Set<SpamAdress>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -68,6 +69,20 @@ namespace Dmail.Data.Entities
                 .HasOne(g => g.Item)
                 .WithMany(u => u.UserItems)
                 .HasForeignKey(gu => gu.ItemId);
+
+
+            modelBuilder.Entity<SpamAdress>()
+                .HasKey(sa => new { sa.User1Id, sa.User2Id });
+
+            modelBuilder.Entity<SpamAdress>()
+                .HasOne(sa => sa.User1)
+                .WithMany(u => u.SpamAdresses1)
+                .HasForeignKey(sa => sa.User1Id);
+
+            modelBuilder.Entity<SpamAdress>()
+                .HasOne(sa => sa.User2)
+                .WithMany(u => u.SpamAdresses2)
+                .HasForeignKey(sa => sa.User2Id);
 
             InitialSeed.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);

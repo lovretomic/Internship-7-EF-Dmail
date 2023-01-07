@@ -35,12 +35,31 @@ namespace Dmail.Presentation.Menus.MainMenuOption
                     {
                         Console.WriteLine($"{++i} - {item.Title} - {userRepository.GetById(item.SenderId).Email}");
                     }
-                    input = Reader.ReadNumber();
-                    if (input - 1 < readInbox.Count())
+                    if(i == 0)
                     {
-                        Writer.PrintHeader();
-                        itemRepository.Print(readInbox[input - 1], connectedUser);
+                        Writer.NoResults();
                     }
+                    do
+                    {
+                        Console.Write("Unesi broj poruke kojoj zeli pristupiti ili 0 za povratak na glavni izbornik: ");
+                        input = Reader.ReadNumber();
+                        if (input > 0 && input <= i)
+                        {
+                            Writer.PrintHeader();
+                            itemRepository.Print(readInbox[input - 1], connectedUser);
+
+                            var mainMenu1 = new MainMenu();
+                            mainMenu1.Open(connectedUser);
+                        }
+                        else if (input == 0)
+                        {
+                            Console.WriteLine("Vracam se na glavni izbornik...");
+                            System.Threading.Thread.Sleep(1000);
+                            var mainMenu1 = new MainMenu();
+                            mainMenu1.Open(connectedUser);
+                        }
+                    } while (input < 0 || input > i);
+                    
                     break;
                 case 2:
                     Writer.PrintHeader();
@@ -50,12 +69,29 @@ namespace Dmail.Presentation.Menus.MainMenuOption
                     {
                         Console.WriteLine($"{++i} - {item.Title} - {userRepository.GetById(item.SenderId).Email}");
                     }
-                    input = Reader.ReadNumber();
-                    if (input - 1 < unreadInbox.Count())
+                    if (i == 0)
                     {
-                        Writer.PrintHeader();
-                        itemRepository.Print(unreadInbox[input - 1], connectedUser);
+                        Writer.NoResults();
                     }
+                    do
+                    {
+                        Console.Write("Unesi broj poruke kojoj zeli pristupiti ili 0 za povratak na glavni izbornik: ");
+                        input = Reader.ReadNumber();
+                        if (input > 0 && input <= i)
+                        {
+                            Writer.PrintHeader();
+                            itemRepository.Print(unreadInbox[input - 1], connectedUser);
+                            var mainMenu1 = new MainMenu();
+                            mainMenu1.Open(connectedUser);
+                        }
+                        else if (input == 0)
+                        {
+                            Console.WriteLine("Vracam se na glavni izbornik...");
+                            System.Threading.Thread.Sleep(1000);
+                            var mainMenu1 = new MainMenu();
+                            mainMenu1.Open(connectedUser);
+                        }
+                    } while (input < 0 || input > i);
                     break;
                 case 3:
                     Writer.PrintHeader();
@@ -69,14 +105,33 @@ namespace Dmail.Presentation.Menus.MainMenuOption
                             Console.WriteLine($"{++i} - {item.Title} - {userRepository.GetById(item.SenderId).Email}");
                         }
                     }
-                    input = Reader.ReadNumber();
-                    if (input - 1 < inbox.Count())
+                    if (i == 0)
                     {
-                        Writer.PrintHeader();
-                        itemRepository.Print(inbox[input - 1], connectedUser);
+                        Writer.NoResults();
                     }
+                    do
+                    {
+                        Console.Write("Unesi broj poruke kojoj zeli pristupiti ili 0 za povratak na glavni izbornik: ");
+                        input = Reader.ReadNumber();
+                        if (input > 0 && input <= i)
+                        {
+                            Writer.PrintHeader();
+                            itemRepository.Print(inbox[input - 1], connectedUser);
+                            var mainMenu1 = new MainMenu();
+                            mainMenu1.Open(connectedUser);
+                        }
+                        else if (input == 0)
+                        {
+                            Console.WriteLine("Vracam se na glavni izbornik...");
+                            System.Threading.Thread.Sleep(1000);
+                            var mainMenu1 = new MainMenu();
+                            mainMenu1.Open(connectedUser);
+                        }
+                    } while (input < 0 || input > i);
                     break;
                 case 0:
+                    Console.WriteLine("Vracam se na glavni izbornik...");
+                    System.Threading.Thread.Sleep(1000);
                     var mainMenu = new MainMenu();
                     mainMenu.Open(connectedUser);
                     break;

@@ -44,5 +44,19 @@ namespace Dmail.Domain.Repositories
             return SaveChanges();
         }
         public User? GetById(int id) => DbContext.Users.FirstOrDefault(u => u.Id == id);
+        public bool EmailIsUnique(string email)
+        {
+            var userRepository = new UserRepository(DbContext);
+            var users = DbContext.Users.ToList();
+
+            var emails = new List<string>();
+            foreach(var user in users)
+            {
+                emails.Add(user.Email);
+            }
+
+            if (emails.Contains(email)) return false;
+            return true;
+        }
     }
 }

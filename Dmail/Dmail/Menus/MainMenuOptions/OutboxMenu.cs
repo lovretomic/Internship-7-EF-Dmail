@@ -22,16 +22,34 @@ namespace Dmail.Presentation.Menus.MainMenuOptions
             Writer.PrintHeader();
             var outbox = itemRepository.GetOutbox(connectedUser);
             var i = 0;
+            int input;
             foreach (var item in outbox)
             {
                 Console.WriteLine($"{++i} - {item.Title} - {userItemRepository.GetReceiversEmails(item)}");
             }
-            var input = Reader.ReadNumber();
-            if (input - 1 < outbox.Count())
+            if (i == 0)
             {
-                Writer.PrintHeader();
-                itemRepository.Print(outbox[input - 1], connectedUser, true);
+                Writer.NoResults();
             }
+            do
+            {
+                Console.Write("Unesi broj poruke kojoj zeli pristupiti ili 0 za povratak na glavni izbornik: ");
+                input = Reader.ReadNumber();
+                if (input > 0 && input <= i)
+                {
+                    Writer.PrintHeader();
+                    itemRepository.Print(outbox[input - 1], connectedUser);
+                    var mainMenu = new MainMenu();
+                    mainMenu.Open(connectedUser);
+                }
+                else if (input == 0)
+                {
+                    Console.WriteLine("Vracam se na glavni izbornik...");
+                    System.Threading.Thread.Sleep(1000);
+                    var mainMenu1 = new MainMenu();
+                    mainMenu1.Open(connectedUser);
+                }
+            } while (input < 0 || input > i);
         }
     }
 }

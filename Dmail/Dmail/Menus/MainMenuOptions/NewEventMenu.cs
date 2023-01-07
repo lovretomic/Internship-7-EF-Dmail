@@ -15,6 +15,8 @@ namespace Dmail.Presentation.Menus.MainMenuOptions
         {
             var itemRepository = new ItemRepository(DbContextFactory.GetDbContext());
             itemRepository.NewEvent(connectedUser);
+            var mainMenu = new MainMenu();
+            mainMenu.Open(connectedUser);
         }
     }
 }
