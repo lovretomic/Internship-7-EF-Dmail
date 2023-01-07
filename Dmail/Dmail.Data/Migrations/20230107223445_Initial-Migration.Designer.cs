@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dmail.Data.Migrations
 {
     [DbContext(typeof(DmailDbContext))]
-    [Migration("20230107195410_Initial-Migration")]
+    [Migration("20230107223445_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace Dmail.Data.Migrations
                             SenderId = 3,
                             SentOn = "2023-01-06",
                             StartDate = "",
-                            Title = "Mail1",
+                            Title = "Prijava za sponzora",
                             Type = 0
                         },
                         new
@@ -75,7 +75,7 @@ namespace Dmail.Data.Migrations
                             SenderId = 3,
                             SentOn = "2023-01-05",
                             StartDate = "",
-                            Title = "Mail2",
+                            Title = "Upit",
                             Type = 0
                         },
                         new
@@ -85,7 +85,7 @@ namespace Dmail.Data.Migrations
                             SenderId = 3,
                             SentOn = "2023-01-04",
                             StartDate = "",
-                            Title = "Mail3",
+                            Title = "Dodatne informacije",
                             Type = 0
                         },
                         new
@@ -95,7 +95,7 @@ namespace Dmail.Data.Migrations
                             SenderId = 7,
                             SentOn = "2022-12-06",
                             StartDate = "2022-12-07",
-                            Title = "Event1",
+                            Title = "Sastanak 1",
                             Type = 1
                         },
                         new
@@ -105,7 +105,7 @@ namespace Dmail.Data.Migrations
                             SenderId = 4,
                             SentOn = "2022-12-10",
                             StartDate = "2022-12-10",
-                            Title = "Event2",
+                            Title = "Sastanak 2",
                             Type = 1
                         },
                         new
@@ -115,7 +115,7 @@ namespace Dmail.Data.Migrations
                             SenderId = 16,
                             SentOn = "2022-12-17",
                             StartDate = "2022-12-16",
-                            Title = "Event3",
+                            Title = "Uredivanje prostora",
                             Type = 1
                         },
                         new
@@ -125,7 +125,7 @@ namespace Dmail.Data.Migrations
                             SenderId = 2,
                             SentOn = "2022-12-29",
                             StartDate = "2022-12-20",
-                            Title = "Event4",
+                            Title = "Predavanje 5",
                             Type = 1
                         });
                 });
@@ -293,14 +293,6 @@ namespace Dmail.Data.Migrations
                             FirstName = "Anja",
                             LastName = "Perko",
                             Password = "qkipaEkfPi2P"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Email = "tomiclovre05@gmail.com",
-                            FirstName = "Lovre",
-                            LastName = "Tomić",
-                            Password = "pass123"
                         });
                 });
 
@@ -330,7 +322,7 @@ namespace Dmail.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = 16,
+                            UserId = 2,
                             ItemId = 1,
                             Attendance = 0,
                             IsSpam = false,
@@ -338,7 +330,7 @@ namespace Dmail.Data.Migrations
                         },
                         new
                         {
-                            UserId = 16,
+                            UserId = 8,
                             ItemId = 2,
                             Attendance = 0,
                             IsSpam = false,
@@ -346,7 +338,7 @@ namespace Dmail.Data.Migrations
                         },
                         new
                         {
-                            UserId = 16,
+                            UserId = 9,
                             ItemId = 3,
                             Attendance = 0,
                             IsSpam = false,
@@ -402,7 +394,7 @@ namespace Dmail.Data.Migrations
                         },
                         new
                         {
-                            UserId = 16,
+                            UserId = 10,
                             ItemId = 5,
                             Attendance = 0,
                             IsSpam = false,

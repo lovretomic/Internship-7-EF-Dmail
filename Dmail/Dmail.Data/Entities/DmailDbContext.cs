@@ -17,45 +17,13 @@ namespace Dmail.Data.Entities
         public DmailDbContext(DbContextOptions options) : base(options)
         {
         }
-
-        //public DbSet<Event> Events => Set<Event>();
-        //public DbSet<Message> Messages => Set<Message>();
         public DbSet<User> Users => Set<User>();
-        //public DbSet<UserEvent> UserEvents => Set<UserEvent>();
-        //public DbSet<UserMessage> UserMessages => Set<UserMessage>();
         public DbSet<Item> Items => Set<Item>();
         public DbSet<UserItem> UserItems => Set<UserItem>();
         public DbSet<SpamAdress> SpamAdresses => Set<SpamAdress>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*
-            modelBuilder.Entity<UserEvent>()
-                .HasKey(ue => new { ue.UserId, ue.EventId });
-
-            modelBuilder.Entity<UserEvent>()
-                .HasOne(g => g.User)
-                .WithMany(u => u.UserEvents)
-                .HasForeignKey(gu => gu.UserId);
-
-            modelBuilder.Entity<UserEvent>()
-                .HasOne(g => g.Event)
-                .WithMany(u => u.UserEvents)
-                .HasForeignKey(gu => gu.EventId);
-
-            modelBuilder.Entity<UserMessage>()
-                .HasKey(um => new { um.UserId, um.MessageId });
-
-            modelBuilder.Entity<UserMessage>()
-                .HasOne(g => g.User)
-                .WithMany(u => u.UserMessages)
-                .HasForeignKey(gu => gu.UserId);
-
-            modelBuilder.Entity<UserMessage>()
-                .HasOne(g => g.Message)
-                .WithMany(u => u.UserMessages)
-                .HasForeignKey(gu => gu.MessageId);
-            */
 
             modelBuilder.Entity<UserItem>()
                 .HasKey(ue => new { ue.UserId, ue.ItemId });

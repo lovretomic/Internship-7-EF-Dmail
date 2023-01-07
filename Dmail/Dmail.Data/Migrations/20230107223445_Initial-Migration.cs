@@ -99,13 +99,13 @@ namespace Dmail.Data.Migrations
                 columns: new[] { "Id", "Content", "SenderId", "SentOn", "StartDate", "Title", "Type" },
                 values: new object[,]
                 {
-                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam auctor lorem at auctor cursus. Nunc gravida tincidunt mauris, non laoreet magna gravida vitae. Nullam tempor consequat sem, id iaculis ante tristique a. Pellentesque fringilla mattis molestie. Nunc eu ante a urna feugiat congue. Donec volutpat nisi eu libero commodo, a.", 3, "2023-01-06", "", "Mail1", 0 },
-                    { 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam auctor lorem at auctor cursus. Nunc gravida tincidunt mauris, non laoreet magna gravida vitae. Nullam tempor consequat sem, id iaculis ante tristique a. Pellentesque fringilla mattis molestie. Nunc eu ante a urna feugiat congue. Donec volutpat nisi eu libero commodo, a.", 3, "2023-01-05", "", "Mail2", 0 },
-                    { 3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam auctor lorem at auctor cursus. Nunc gravida tincidunt mauris, non laoreet magna gravida vitae. Nullam tempor consequat sem, id iaculis ante tristique a. Pellentesque fringilla mattis molestie. Nunc eu ante a urna feugiat congue. Donec volutpat nisi eu libero commodo, a.", 3, "2023-01-04", "", "Mail3", 0 },
-                    { 4, "", 7, "2022-12-06", "2022-12-07", "Event1", 1 },
-                    { 5, "", 4, "2022-12-10", "2022-12-10", "Event2", 1 },
-                    { 6, "", 16, "2022-12-17", "2022-12-16", "Event3", 1 },
-                    { 7, "", 2, "2022-12-29", "2022-12-20", "Event4", 1 }
+                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam auctor lorem at auctor cursus. Nunc gravida tincidunt mauris, non laoreet magna gravida vitae. Nullam tempor consequat sem, id iaculis ante tristique a. Pellentesque fringilla mattis molestie. Nunc eu ante a urna feugiat congue. Donec volutpat nisi eu libero commodo, a.", 3, "2023-01-06", "", "Prijava za sponzora", 0 },
+                    { 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam auctor lorem at auctor cursus. Nunc gravida tincidunt mauris, non laoreet magna gravida vitae. Nullam tempor consequat sem, id iaculis ante tristique a. Pellentesque fringilla mattis molestie. Nunc eu ante a urna feugiat congue. Donec volutpat nisi eu libero commodo, a.", 3, "2023-01-05", "", "Upit", 0 },
+                    { 3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam auctor lorem at auctor cursus. Nunc gravida tincidunt mauris, non laoreet magna gravida vitae. Nullam tempor consequat sem, id iaculis ante tristique a. Pellentesque fringilla mattis molestie. Nunc eu ante a urna feugiat congue. Donec volutpat nisi eu libero commodo, a.", 3, "2023-01-04", "", "Dodatne informacije", 0 },
+                    { 4, "", 7, "2022-12-06", "2022-12-07", "Sastanak 1", 1 },
+                    { 5, "", 4, "2022-12-10", "2022-12-10", "Sastanak 2", 1 },
+                    { 6, "", 16, "2022-12-17", "2022-12-16", "Uredivanje prostora", 1 },
+                    { 7, "", 2, "2022-12-29", "2022-12-20", "Predavanje 5", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -127,8 +127,7 @@ namespace Dmail.Data.Migrations
                     { 12, "lucicantonela@gmail.com", "Antonela", "Lučić", "WZv4zYpAVszQ" },
                     { 13, "adam.ivanovic2@gmail.com", "Adam", "Ivanović", "BvHVg4EyWja6" },
                     { 14, "brunopavicic@gmail.com", "Bruno", "Pavičić", "3jiW5m92eFsb" },
-                    { 15, "perko.anja09@gmail.com", "Anja", "Perko", "qkipaEkfPi2P" },
-                    { 16, "tomiclovre05@gmail.com", "Lovre", "Tomić", "pass123" }
+                    { 15, "perko.anja09@gmail.com", "Anja", "Perko", "qkipaEkfPi2P" }
                 });
 
             migrationBuilder.InsertData(
@@ -137,15 +136,15 @@ namespace Dmail.Data.Migrations
                 values: new object[,]
                 {
                     { 7, 1, 0, false, 0 },
+                    { 1, 2, 0, false, 0 },
                     { 5, 2, 0, false, 0 },
                     { 4, 7, 0, false, 0 },
+                    { 2, 8, 0, false, 0 },
+                    { 3, 9, 0, false, 0 },
+                    { 5, 10, 0, false, 0 },
                     { 2, 11, 0, false, 0 },
                     { 1, 14, 0, false, 0 },
-                    { 6, 14, 0, false, 0 },
-                    { 1, 16, 0, false, 0 },
-                    { 2, 16, 0, false, 0 },
-                    { 3, 16, 0, false, 0 },
-                    { 5, 16, 0, false, 0 }
+                    { 6, 14, 0, false, 0 }
                 });
 
             migrationBuilder.CreateIndex(
